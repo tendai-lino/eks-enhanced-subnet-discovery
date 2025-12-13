@@ -15,6 +15,69 @@ This Terraform configuration creates a VPC infrastructure designed to showcase A
   - Private subnets (for EKS nodes)
   - Secondary private subnets (for additional pod IPs)
 
+### Network Diagram
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          VPC: 192.168.200.0/24                              │
+│                     Secondary CIDR: 100.64.0.0/16                           │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌────────────────────────────────┬────────────────────────────────┐       │
+│  │    Availability Zone A         │    Availability Zone B         │       │
+│  │                                │                                │       │
+│  │  ┌──────────────────────────┐  │  ┌──────────────────────────┐  │       │
+│  │  │  Public Subnet           │  │  │  Public Subnet           │  │       │
+│  │  │  192.168.200.0/27        │  │  │  192.168.200.32/27       │  │       │
+│  │  │  Tags: nat=true, AZ=a    │  │  │  Tags: nat=true, AZ=b    │  │       │
+│  │  │                          │  │  │                          │  │       │
+│  │  │  ┌────────────────────┐  │  │  │  ┌────────────────────┐  │  │       │
+│  │  │  │  NAT Instance      │  │  │  │  │  NAT Instance      │  │  │       │
+│  │  │  │  (Auto Scaling)    │──┼──┼──┼──│  (Auto Scaling)    │──┼──┼──┐    │
+│  │  │  │  Public IP         │  │  │  │  │  Public IP         │  │  │  │    │
+│  │  │  └────────────────────┘  │  │  │  └────────────────────┘  │  │  │    │
+│  │  └──────────────────────────┘  │  └──────────────────────────┘  │  │    │
+│  │              │                  │              │                  │  │    │
+│  │              │ Internet         │              │ Internet         │  │    │
+│  │              │ Gateway          │              │ Gateway          │  │    │
+│  │              ▼                  │              ▼                  │  │    │
+│  │  ════════════════════════════  │  ════════════════════════════  │  │    │
+│  │              ▲                  │              ▲                  │  │    │
+│  │              │                  │              │                  │  │    │
+│  │  ┌──────────────────────────┐  │  ┌──────────────────────────┐  │  │    │
+│  │  │  Private Subnet          │  │  │  Private Subnet          │  │  │    │
+│  │  │  192.168.200.64/27       │  │  │  192.168.200.96/27       │  │  │    │
+│  │  │  (EKS Worker Nodes)      │  │  │  (EKS Worker Nodes)      │  │  │    │
+│  │  │                          │  │  │                          │  │  │    │
+│  │  │  Route Table (AZ-a)      │  │  │  Route Table (AZ-b)      │  │  │    │
+│  │  │  Role=pvt-rtb, AZ=a   ───┼──┼──┼──│  Role=pvt-rtb, AZ=b   ───┼──┼──┘    │
+│  │  │  0.0.0.0/0 → NAT-a       │  │  │  0.0.0.0/0 → NAT-b       │  │       │
+│  │  └──────────────────────────┘  │  └──────────────────────────┘  │       │
+│  │              │                  │              │                  │       │
+│  │              │                  │              │                  │       │
+│  │  ┌──────────────────────────┐  │  ┌──────────────────────────┐  │       │
+│  │  │  Secondary Private       │  │  │  Secondary Private       │  │       │
+│  │  │  100.64.0.0/24           │  │  │  100.64.1.0/24           │  │       │
+│  │  │  (Pod IPs)               │  │  │  (Pod IPs)               │  │       │
+│  │  │                          │  │  │                          │  │       │
+│  │  │  Tags:                   │  │  │  Tags:                   │  │       │
+│  │  │  kubernetes.io/role/cni=1│  │  │  kubernetes.io/role/cni=1│  │       │
+│  │  │  Tier=secondary-private  │  │  │  Tier=secondary-private  │  │       │
+│  │  └──────────────────────────┘  │  └──────────────────────────┘  │       │
+│  │                                │                                │       │
+│  └────────────────────────────────┴────────────────────────────────┘       │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Traffic Flow:
+  ═══════  Internet Gateway (bidirectional)
+  ────▶    NAT Instance route (private → internet)
+  
+EKS Pod IP Allocation:
+  • Primary subnets: Worker node IPs from 192.168.200.0/24
+  • Secondary subnets: Pod IPs from 100.64.0.0/16 (via CNI subnet discovery)
+```
+
 ## Deployment Workflow
 
 ### Step 1: Deploy VPC Infrastructure
