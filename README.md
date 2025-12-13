@@ -1,5 +1,12 @@
 # EKS Enhanced Subnet Discovery Demo
 
+[![Terraform](https://img.shields.io/badge/Terraform-1.4+-623CE4?logo=terraform)](https://www.terraform.io/)
+[![AWS](https://img.shields.io/badge/AWS-VPC%20%7C%20EKS-FF9900?logo=amazon-aws)](https://aws.amazon.com/)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+> **Author**: Tendai Musonza  
+> A production-ready demonstration of Amazon EKS subnet discovery and secondary CIDR workflows for dynamically expanding pod IP capacity.
+
 This repository demonstrates EKS subnet discovery and secondary CIDR workflows for expanding pod IP capacity when the primary CIDR range is exhausted.
 
 ## Overview
@@ -209,3 +216,24 @@ terraform destroy
 - [EKS Custom Networking](https://docs.aws.amazon.com/eks/latest/userguide/cni-custom-network.html)
 - [EKS VPC CNI Configuration](https://github.com/aws/amazon-vpc-cni-k8s)
 - [Secondary CIDR Blocks](https://docs.aws.amazon.com/vpc/latest/userguide/configure-your-vpc.html#add-cidr-block-restrictions)
+
+---
+
+## Author
+
+**Tendai Musonza**
+
+[![GitHub](https://img.shields.io/badge/GitHub-tendai--lino-181717?logo=github)](https://github.com/tendai-lino)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?logo=linkedin)](https://linkedin.com/in/tendai-musonza)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/tendai-lino/eks-enhanced-subnet-discovery/issues).
+
+---
+
+⭐ If you find this project helpful, please consider giving it a star!
