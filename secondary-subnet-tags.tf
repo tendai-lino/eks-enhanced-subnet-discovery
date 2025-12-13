@@ -1,3 +1,4 @@
+/* comment out last after secondary cidr for subnet discovery to kick in
 # -----------------------------
 # Tag Secondary Subnets for EKS CNI
 # -----------------------------
@@ -9,3 +10,4 @@ resource "aws_ec2_tag" "secondary_subnet_cni" {
 
   depends_on = [aws_subnet.secondary_private]
 }
+*/

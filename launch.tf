@@ -116,16 +116,16 @@ resource "aws_launch_template" "nat66_lt" {
   }
 }
 
-# Auto Scaling Groups - Dynamic creation for each subnet
+# Auto Scaling Groups - One per AZ in public subnets
 resource "aws_autoscaling_group" "nat66_asg" {
-  for_each = toset([for idx, subnet in local.subnet_ids : tostring(idx)])
+  count = 2
 
-  name             = "${var.name_prefix}-az${tonumber(each.key) + 1}-asg"
+  name             = "${var.name_prefix}-az${count.index + 1}-asg"
   min_size         = 1
   max_size         = 1
   desired_capacity = 1
 
-  vpc_zone_identifier = [local.subnet_ids[tonumber(each.key)]]
+  vpc_zone_identifier = [aws_subnet.public[count.index].id]
 
   launch_template {
     id      = aws_launch_template.nat66_lt.id
@@ -137,7 +137,7 @@ resource "aws_autoscaling_group" "nat66_asg" {
 
   tag {
     key                 = "Name"
-    value               = "${var.name_prefix}-nat66-az${tonumber(each.key) + 1}"
+    value               = "${var.name_prefix}-nat66-az${count.index + 1}"
     propagate_at_launch = true
   }
 }

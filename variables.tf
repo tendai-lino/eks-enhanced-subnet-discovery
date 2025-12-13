@@ -62,3 +62,42 @@ variable "assign_public_ip" {
   default     = true
   description = "Whether to assign a public IP address to NAT instances. Set to true if used for IPv4 NAT to internet. This allows the NAT instance to relay traffic via the Internet Gateway when IPv4 is in use."
 }
+# =========================================
+# EKS Cluster Variables
+# =========================================
+
+variable "eks_version" {
+  type        = string
+  default     = "1.31"
+  description = "Kubernetes version for EKS cluster"
+}
+
+variable "node_instance_type" {
+  type        = string
+  default     = "t3.medium"
+  description = "EC2 instance type for EKS worker nodes"
+}
+
+variable "node_desired_size" {
+  type        = number
+  default     = 1
+  description = "Desired number of worker nodes per node group"
+}
+
+variable "node_min_size" {
+  type        = number
+  default     = 1
+  description = "Minimum number of worker nodes per node group"
+}
+
+variable "node_max_size" {
+  type        = number
+  default     = 3
+  description = "Maximum number of worker nodes per node group"
+}
+
+variable "node_capacity_type" {
+  type        = string
+  default     = "ON_DEMAND"
+  description = "Capacity type for worker nodes (ON_DEMAND or SPOT)"
+}

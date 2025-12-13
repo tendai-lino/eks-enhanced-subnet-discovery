@@ -1,3 +1,5 @@
+
+/*  Comment Out after Pod limit reached 
 # -----------------------------
 # Secondary CIDR Block
 # -----------------------------
@@ -35,3 +37,4 @@ resource "aws_route_table_association" "secondary_private" {
   subnet_id      = aws_subnet.secondary_private[count.index].id
   route_table_id = aws_route_table.private[count.index].id
 }
+*/

@@ -30,7 +30,4 @@ data "aws_subnets" "nat66_subnets" {
   }
 }
 
-data "aws_subnet" "nat66_subnet_details" {
-  for_each = toset(data.aws_subnets.nat66_subnets.ids)
-  id       = each.value
-}
+# Subnet details removed - use direct subnet references instead

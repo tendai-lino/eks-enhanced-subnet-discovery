@@ -3,9 +3,6 @@
 # =========================================
 
 locals {
-  # Use provided subnet IDs or dynamically fetched ones
-  subnet_ids = length(var.nat66_subnet_ids) > 0 ? var.nat66_subnet_ids : data.aws_subnets.nat66_subnets.ids
-
   nat66_user_data = <<-EOF
     #!/bin/bash
     set -xe
