@@ -1,4 +1,4 @@
-/*   Comment out block after first code run 
+#   Comment out block after first code run 
 # =========================================
 # EKS Cluster Configuration
 # =========================================
@@ -42,6 +42,43 @@ resource "aws_eks_cluster" "this" {
 
   tags = {
     Name = "${var.name}-cluster"
+  }
+}
+
+# =========================================
+# EKS Add-ons
+# =========================================
+
+# VPC CNI Add-on
+resource "aws_eks_addon" "vpc_cni" {
+  cluster_name             = aws_eks_cluster.this.name
+  addon_name               = "vpc-cni"
+  addon_version            = "v1.20.4-eksbuild.2"
+  resolve_conflicts        = "OVERWRITE"
+  service_account_role_arn = null
+
+  depends_on = [
+    aws_eks_node_group.this
+  ]
+
+  tags = {
+    Name = "${var.name}-vpc-cni"
+  }
+}
+
+# Pod Identity Agent Add-on
+resource "aws_eks_addon" "pod_identity_agent" {
+  cluster_name      = aws_eks_cluster.this.name
+  addon_name        = "eks-pod-identity-agent"
+  addon_version     = "v1.3.10-eksbuild.1"
+  resolve_conflicts = "OVERWRITE"
+
+  depends_on = [
+    aws_eks_node_group.this
+  ]
+
+  tags = {
+    Name = "${var.name}-pod-identity-agent"
   }
 }
 
@@ -117,4 +154,3 @@ resource "aws_eks_node_group" "this" {
     aws_iam_role_policy_attachment.eks_container_registry_policy,
   ]
 }
-*/
