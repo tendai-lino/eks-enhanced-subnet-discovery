@@ -1,3 +1,4 @@
+/*
 #   Comment out block after first code run 
 # =========================================
 # EKS Cluster Configuration
@@ -154,3 +155,4 @@ resource "aws_eks_node_group" "this" {
     aws_iam_role_policy_attachment.eks_container_registry_policy,
   ]
 }
+*/
