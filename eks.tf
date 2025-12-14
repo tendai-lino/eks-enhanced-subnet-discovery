@@ -52,11 +52,11 @@ resource "aws_eks_cluster" "this" {
 
 # VPC CNI Add-on
 resource "aws_eks_addon" "vpc_cni" {
-  cluster_name             = aws_eks_cluster.this.name
-  addon_name               = "vpc-cni"
-  addon_version            = "v1.20.4-eksbuild.2"
-  resolve_conflicts        = "OVERWRITE"
-  service_account_role_arn = null
+  cluster_name                = aws_eks_cluster.this.name
+  addon_name                  = "vpc-cni"
+  addon_version               = "v1.20.4-eksbuild.2"
+  resolve_conflicts_on_update = "OVERWRITE"
+  service_account_role_arn    = null
 
   depends_on = [
     aws_eks_node_group.this
@@ -69,10 +69,10 @@ resource "aws_eks_addon" "vpc_cni" {
 
 # Pod Identity Agent Add-on
 resource "aws_eks_addon" "pod_identity_agent" {
-  cluster_name      = aws_eks_cluster.this.name
-  addon_name        = "eks-pod-identity-agent"
-  addon_version     = "v1.3.10-eksbuild.1"
-  resolve_conflicts = "OVERWRITE"
+  cluster_name                = aws_eks_cluster.this.name
+  addon_name                  = "eks-pod-identity-agent"
+  addon_version               = "v1.3.10-eksbuild.1"
+  resolve_conflicts_on_update = "OVERWRITE"
 
   depends_on = [
     aws_eks_node_group.this
