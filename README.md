@@ -224,7 +224,7 @@ terraform destroy
 **Tendai Musonza**
 
 [![GitHub](https://img.shields.io/badge/GitHub-tendai--lino-181717?logo=github)](https://github.com/tendai-lino)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?logo=linkedin)](https://linkedin.com/in/tendai-musonza)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?logo=linkedin)](https://linkedin.com/in/tendai-musonza-a9914523)
 
 ## License
 
