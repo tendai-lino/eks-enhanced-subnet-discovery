@@ -9,6 +9,20 @@
 
 This repository demonstrates EKS subnet discovery and secondary CIDR workflows for expanding pod IP capacity when the primary CIDR range is exhausted.
 
+## 🎥 Video Demo
+
+This project is demonstrated step-by-step in the following video:
+
+👉 https://www.youtube.com/watch?v=ZC3U6sADp_o
+
+The video walks through:
+- **EKS enhanced subnet discovery** for dynamically expanding pod IP capacity
+- Pod IP allocation behaviour in the VPC (VPC CNI)
+- IP exhaustion using a deliberately small primary CIDR
+- Expanding pod IP capacity using a secondary CIDR
+- Subnet tagging required for enhanced subnet discovery
+
+
 ## Overview
 
 This Terraform configuration creates a VPC infrastructure designed to showcase Amazon EKS's enhanced subnet discovery feature. The setup demonstrates how to dynamically expand available pod IPs by adding secondary CIDR blocks and leveraging EKS's automatic subnet detection.
